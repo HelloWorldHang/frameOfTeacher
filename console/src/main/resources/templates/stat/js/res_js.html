@@ -1,0 +1,117 @@
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var Res = function () {
+
+        return {
+
+            //初始化
+            init: function () {
+
+                //注册事件
+                this.initEvent();
+
+                //初始化表格
+                Sys.initTable(
+                    this.getTableParam()
+                );
+
+            },
+
+            initEvent: function () {
+
+                $("#btnBack")
+                    .click(
+                        function() {
+                            location.href = '/stat/SYS_ID/YEAR/MONTH/channel.html'.replace(/SYS_ID/, $("#sysId").val()).replace(/YEAR/, $("#year").val()).replace(/MONTH/, $("#month").val());
+
+                        });
+
+
+                $("#btnSearch").click(function () {
+                    Sys.refreshTable(Res.getTableParam());
+                });
+                $("#searchForm").submit(function () {
+
+                    Sys.refreshTable(Res.getTableParam());
+                    return false;
+
+                });
+
+            },
+
+            detail: function (sysId, year, month, channelId) {
+
+                var url = '/stat/SYS_ID/YEAR/MONTH/CHANNEL_ID/res.html'.replace(/SYS_ID/, sysId).replace(/YEAR/, year).replace(/MONTH/, month).replace(/CHANNEL_ID/, channelId);
+                window.location.href = url;
+
+            },
+
+            getTableParam: function () {
+
+
+                return {
+                    tableId: "tabList",
+                    url: '/stat/SYS_ID/YEAR/MONTH/CHANNEL_ID/query_by_page.json'.replace(/SYS_ID/, $("#sysId").val()).replace(/YEAR/, $("#year").val()).replace(/MONTH/, $("#month").val()).replace(/CHANNEL_ID/, $("#channelId").val()),
+                    queryParams: $("#searchForm").serializeObject(),
+                    columns: [
+                        {
+                            "field": "year",
+                            "title": "年",
+                            "align": "center",
+                            "visible": false
+                        },
+                        {
+                            "field": "month",
+                            "title": "月",
+                            "align": "center",
+                            "visible": false
+                        },
+
+
+                        {
+                            "field": "sysId",
+                            "title": "系统",
+                            "align": "center",
+                            "visible": false
+                        },
+
+                        {
+                            "field": "channelId",
+                            "title": "栏目",
+                            "align": "center",
+                            "visible": false
+                        },
+
+                        {
+                            "field": "resName",
+                            "title": "资源",
+                            "align": "center"
+                        },
+
+                        {
+                            "field": "num",
+                            "title": "PV",
+                            "align": "center"
+                        }
+
+
+
+                    ]
+
+                }
+
+            }
+
+        };
+
+    }();
+
+    //入口
+    $(document).ready(function () {
+
+        Res.init();
+
+    });
+    /*]]>*/
+</script>
+

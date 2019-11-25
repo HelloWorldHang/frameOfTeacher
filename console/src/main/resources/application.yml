@@ -1,0 +1,17 @@
+server:
+  port: 8280
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/teacher_frame?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+      cache: false
+
+mybatis:
+  typeAliasesPackage: wang.doug.frame.model
+  mapperLocations: classpath:mapper/*.xml
+
+

@@ -1,0 +1,17 @@
+server:
+  port: 8380
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/frame?useUnicode=true&useSSL=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+      cache: false
+
+mybatis:
+  typeAliasesPackage: wang.doug.frame.vo
+  mapperLocations: classpath:mapper/*.xml
+
+

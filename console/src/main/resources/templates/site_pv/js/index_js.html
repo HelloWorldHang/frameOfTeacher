@@ -1,0 +1,183 @@
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var Index = function () {
+
+        return {
+
+            //初始化
+            init: function () {
+
+                //注册事件
+                this.initEvent();
+
+                //初始化表格
+                Sys.initTable(
+                    this.getTableParam()
+                );
+
+            },
+
+            initEvent: function () {
+
+                $("#btnNew")
+                    .click(
+                        function () {
+                            location.href = '/site_pv/new.html';
+                        });
+
+
+                $("#btnSearch").click(function () {
+                    Sys.refreshTable(Index.getTableParam());
+                });
+                $("#searchForm").submit(function () {
+
+                    Sys.refreshTable(Index.getTableParam());
+                    return false;
+
+                });
+
+            },
+
+            edit: function (id) {
+
+                var url = '/site_pv/ID/edit.html'.replace(/ID/g, id);
+                window.location.href = url;
+
+            },
+
+
+            remove: function (id) {
+
+                Sys.confirm({
+                    showMsg: "确定要删除吗？", callbackFunc: function (isConfirm) {
+                        //确定删除
+                        if (isConfirm) {
+
+
+                            $
+                                .ajax({
+                                    url: '/site_pv/delete.json',
+                                    data: "id=" + id,
+                                    type: 'post',
+                                    //async:false,
+                                    success: function (resp) {
+                                        if (!resp.success) {
+                                            Sys.alert(resp.resultMsg);
+                                            return;
+                                        }
+                                        Sys.alertSuccess({
+                                            successMsg: "删除成功！", callbackFunc: function () {
+                                                //刷新表格
+                                                Sys.refreshTable(Index.getTableParam());
+                                            }
+                                        });
+
+
+                                    },
+                                    error: function (resp) {
+                                        //alert("error！");
+                                    }
+                                });
+
+
+                        }
+
+                    }
+                });
+            },
+
+
+            statusChange: function (id) {
+
+                alert(id);
+
+                //ajax修改状态
+
+
+            },
+
+            getTableParam: function () {
+
+                return {
+                    tableId: "tabList",
+                    url: '/site_pv/query_by_page.json',
+                    queryParams: $("#searchForm").serializeObject(),
+                    columns: [
+
+
+                        {
+                            "field": "year",
+                            "title": "年",
+                            "visible":false,
+                            "align": "center"
+                        },
+                        {
+                            "field": "month",
+                            "title": "月",
+                            "visible":false,
+                            "align": "center"
+                        },
+                        {
+                            "field": "day",
+                            "title": "日",
+                            "visible":false,
+                            "align": "center"
+                        },
+                        {
+                            "field": "hour",
+                            "title": "时",
+                            "visible":false,
+                            "align": "center"
+                        },
+
+
+
+                        {
+                            "field": "minute",
+                            "title": "分",
+                            "visible":false,
+                            "align": "center"
+                        },
+                        {
+                            "field": "second",
+                            "title": "秒",
+                            "visible":false,
+                            "align": "center"
+                        },
+                        {
+                            "field": "createTime",
+                            "title": "时间",
+                            "align": "center",
+                            "formatter":Sys.timeFormatter
+                        },
+                        {
+                            "field": "ip",
+                            "title": "IP地址",
+                            "align": "center"
+                        },
+                        {
+                            "field": "resName",
+                            "title": "资源",
+                            "align": "center"
+                        }
+
+
+                    ]
+
+                }
+
+            }
+
+        };
+
+    }();
+
+    //入口
+    $(document).ready(function () {
+
+        Index.init();
+
+    });
+    /*]]>*/
+</script>
+

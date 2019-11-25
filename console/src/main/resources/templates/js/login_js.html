@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var Login = function () {
+
+        return {
+            //main function to initiate the module
+            init: function () {
+                //初始化事件
+                this.initEvent();
+
+                //
+                //初始化提交
+                Sys
+                    .initSubmit({
+
+                        //提交参数
+                        submitParam: {
+                            "initForm": function () {
+                                return true;
+                            },
+                            "btnSubmitingVal": "登录中...",
+                            "btnVal":"登录",
+                            "btnId": "btnLogin",
+                            //"ajaxType":"post";
+                            "ajaxUrl": "/login.json",
+                            //"formId" : "newForm",
+                            //"successTip":"操作成功！",
+                            "successCallback": function (resp) {
+
+                                if (!resp.success) {
+                                    // console.log(resp.resultCode == "001");
+                                    if(resp.resultCode == "001"){
+
+                                        $("#spanErrMsg").html("验证码错误！");
+
+                                    }
+                                    if(resp.resultCode == "002"){
+
+                                        $("#spanErrMsg").html("账号或密码错误！");
+
+                                    }
+                                    return;
+                                }
+
+                                location.href = "/index.html";
+
+                            }
+                        },
+                        //提交方法
+                        submitHandler: Sys.submitForm
+
+                    });
+
+            },
+            /**
+             * 初始化事件
+             */
+            initEvent: function () {
+
+
+            }
+
+
+        };
+    }();
+
+    $(document).ready(function () {
+
+        Login.init();
+
+    });
+    /*]]>*/
+</script>

@@ -1,0 +1,189 @@
+
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+	var Index = function() {
+
+		return {
+
+			//初始化
+			init : function() {
+
+				//注册事件
+				this.initEvent();
+
+				//初始化表格
+				Sys.initTable(
+
+				this.getTableParam()
+
+				);
+
+			},
+
+			initEvent : function() {
+
+				$("#btnNew")
+						.click(
+								function() {
+									location.href = '/student/new.html';
+								});
+
+
+
+                $("#btnSearch").click(function () {
+                    Sys.refreshTable(Index.getTableParam());
+                });
+                $("#searchForm").submit(function () {
+
+                    Sys.refreshTable(Index.getTableParam());
+                    return false;
+
+                });
+
+			},
+
+			edit : function(id) {
+
+				var url ='/student/ID/edit.html'.replace(/ID/g, id);
+				window.location.href = url;
+
+			},
+
+		
+
+			remove : function(id) {
+
+                Sys.confirm({showMsg:"确定要删除吗？",callbackFunc:function(isConfirm){
+                        //确定删除
+                        if(isConfirm){
+
+
+                            $
+                                .ajax({
+                                    url :'/student/delete.json',
+                                    data : "id=" + id,
+                                    type : 'post',
+                                    //async:false,
+                                    success : function(resp) {
+                                        if (!resp.success) {
+                                            Sys.alert(resp.resultMsg);
+                                            return;
+                                        }
+                                        Sys.alertSuccess({successMsg:"删除成功！",callbackFunc:function(){
+                                            //刷新表格
+                                            Sys.refreshTable(Index.getTableParam());
+                                            }});
+
+
+                                    },
+                                    error : function(resp) {
+                                        //alert("error！");
+                                    }
+                                });
+
+
+                        }
+
+                    }});
+			},
+            changeStatus:function(id){
+
+
+                alert("修改ID："+id+"  状态："+$("#status_"+id).val());
+
+                // $.ajax();
+
+
+            },
+
+			getTableParam : function() {
+
+				return {
+					tableId : "tabList",
+                    url : '/student/query_by_page.json',
+                    queryParams: $("#searchForm").serializeObject(),
+					columns : [
+
+
+							
+							{
+								"field" : "realName",
+								"title" : "姓名",
+								"align" : "center"
+							},
+							{
+								"field" : "sex",
+								"title" : "性别",
+								"align" : "center"
+							},
+
+                            {
+								"field" : "schoolName",
+								"title" : "学校",
+								"align" : "center"
+							},
+
+							{
+								"field" : "mobile",
+								"title" : "手机号",
+								"align" : "center"
+							},
+							{
+								"field" : "email",
+								"title" : "email",
+								"align" : "center"
+							},
+                            {
+                                field: 'id',
+                                title: '状态',
+                                align: 'center',
+                                formatter: function (value, row, index) {
+
+                                    var html="<select  id='status_ID' class=\"form-control m-b\" onchange='Index.changeStatus(ID)'>" +
+                                        "<option value='1'>状态1</option>" +
+                                        "<option value='2'>状态2</option>" +
+                                        "<option value='3'>状态3</option>" +
+                                        "</select>";
+                                    html=html.replace(/ID/g,value);
+
+                                    return html;
+
+                                }
+                            },
+
+
+							{
+								field : 'id',
+								title : '操作',
+								align : 'center',
+								formatter : function(value, row, index) {
+
+                                    var btnEdit='<a href="javascript:;" onclick="Index.edit(\'ID\')"  class="btn btn-link" style="padding:0px 6px">编辑</a>';
+                                    var btnRemove='<a href="javascript:;" onclick="Index.remove(\'ID\')"  class="btn btn-link" style="padding:0px 6px">删除</a>';
+
+                                    return [ btnEdit,  btnRemove ]
+											.join('').replace(/ID/g, value);
+
+								}
+							}
+
+					]
+
+				}
+
+			}
+
+		};
+
+	}();
+
+	//入口
+	$(document).ready(function() {
+
+		Index.init();
+
+	});
+    /*]]>*/
+</script>
+

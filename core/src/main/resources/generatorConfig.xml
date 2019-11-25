@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 配置Run As Maven build : Goals 参数 : mybatis-generator:generate -Dmybatis.generator.overwrite=true -->
+<!-- 配置 tableName,使用 Run As Maven build 生成 dao vo 层 -->
+<generatorConfiguration>
+
+    <!--数据库驱动包路径 -->
+    <classPathEntry
+            location="F:/eclipse_workspace20170314/repository/mysql/mysql-connector-java/8.0.13/mysql-connector-java-8.0.13.jar"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--关闭注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库连接信息 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/teacher_frame?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC&amp;useSSL=false"
+                        userId="root" password="123">
+        </jdbcConnection>
+        <!--生成的model 包路径 -->
+        <javaModelGenerator targetPackage="wang.doug.frame.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="ture"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成xml mapper文件 路径 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="ture"/>
+        </sqlMapGenerator>
+        <!-- 生成的Dao接口 的包路径 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="wang.doug.frame.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="ture"/>
+        </javaClientGenerator>
+        <!--对应数据库表名，多个表，请复制指定 -->
+        <!--生成对应表及类名-->
+
+
+        <table tableName="test" domainObjectName="Test"></table>
+        <!--<table tableName="role" domainObjectName="Role"></table>-->
+        <!--<table tableName="user_role" domainObjectName="UserRole"></table>-->
+        <!--<table tableName="tb_user" domainObjectName="User"></table>-->
+        <!--<table tableName="user_state" domainObjectName="UserState"></table>-->
+
+       <!-- <table tableName="site_pv" domainObjectName="SitePv"></table> -->
+
+    </context>
+</generatorConfiguration>
